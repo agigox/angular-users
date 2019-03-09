@@ -1,53 +1,41 @@
 import { Component, Inject } from '@angular/core';
 import { UserService } from '../user.service';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
    selector: 'app-edit-user',
    template: `
-      <form>
-         <div class="">
-            <div class="">
-               <label for="name" class="">Name:</label>
-               <input type="text" id="name" name="name" class="" [(ngModel)]="data.name"/>
-               <div>
-
-               </div>
-               <label for="surname" class="">Surname:</label>
-               <input [(ngModel)]="data.surname" type="text" id="surname" name="surname" class="" />
-            </div>
-
-            <div class="">
-               <label for="email" class="">Email:</label>
-               <input [(ngModel)]="data.email" type="text" id="email" name="email" class="" />
-            </div>
-
-            <div class="">
-               <label for="password" class="">Password:</label>
-               <input [(ngModel)]="data.password" type="password" id="password" name="password" class=""/>
-               <label for="surname" class="">&nbsp;</label>
-            </div>
-
+      <form #editUser="ngForm" class="edit-user-form">
+         <input type="hidden" name="key" [ngModel]="data.key" />
+         <label for="name">Name:</label>
+         <input type="text" id="name" name="name" [ngModel]="data.name"/>
+         <label for="surname">Surname:</label>
+         <input type="text" id="surname" name="surname" [ngModel]="data.surname" />
+         <label for="email">Email:</label>
+         <input type="text" id="email" name="email" [ngModel]="data.email"  />
+         <label for="password">Password:</label>
+         <input type="password" id="password" name="password" [ngModel]="data.password" />
+         <div mat-dialog-actions class="dialog-buttons">
+            <button mat-raised-button (click)="onNoClick()" color="warn">Cancel</button>
+            <button (click)="onSubmit(editUser);"
+            mat-raised-button [mat-dialog-close]="data" cdkFocusInitial color="accent">Update
+            </button>
          </div>
-
       </form>
-      <h1>Hello {{data.name }}</h1>
-      <div mat-dialog-actions>
-         <button mat-button (click)="onNoClick()">No Thanks</button>
-         <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
-      </div>
    `,
    styles: []
  })
  export class EditUserComponent {
    constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-   public dialogRef: MatDialogRef<EditUserComponent>) {
+   public dialogRef: MatDialogRef<EditUserComponent>,
+   private userService: UserService) {
    }
    onNoClick(): void {
       this.dialogRef.close();
-    }
-
+   }
+   onSubmit(form) {
+      this.userService.updateUser(form.value);
+   }
 
 
  }
@@ -83,28 +71,37 @@ import { FormControl, FormGroup } from '@angular/forms';
     <div *ngIf="errorData">
       {{ errorData}}
     </div>
+    <div class="users-spinner" *ngIf="loadingSnipper">
+      <mat-spinner></mat-spinner>
+    </div>
+
+
   `,
   styles: []
 })
 export class UserInfoComponent {
    userInfo: Array<any>;
    errorData: string;
+   loadingSnipper = true;
    constructor(private userService: UserService, public dialog: MatDialog) {
       // create observable that watch adding a new user
       const observable = this.userService.getStream();
       // implement observer object
       const observer = {
-         next: (data) => this.userInfo = data,
+         next: (data) => {
+            this.loadingSnipper = false
+            this.userInfo = data
+         },
          error: error => {
             if (error.code === 'PERMISSION_DENIED') {
+               this.loadingSnipper = false
                 this.errorData = 'You do not have the permission to write to the datase';
             }
-      },
-      complete: () => console.log('operation completed')
+         }
+      }
+      // Execute with the observer object
+      observable.subscribe(observer);
    }
-    // Execute with the observer object
-    observable.subscribe(observer);
-  }
 
   deleteUser(key: string) {
     this.userService.deleteUser(key);
@@ -115,15 +112,17 @@ export class UserInfoComponent {
   }
   editUser(user) {
    const dialogRef = this.dialog.open(EditUserComponent, {
-      width: '100%',
+      width: '500px',
       data: user
     });
 
     dialogRef.afterClosed().subscribe(result => {
+       /*
       console.log(result);
       if (result) {
          this.userService.updateUser(result);
       }
+      */
     });
   }
 

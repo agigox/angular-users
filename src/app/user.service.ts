@@ -45,13 +45,8 @@ export class UserService {
   updateUser(user: any) {
     this.usersRef.update(user.key, user);
   }
-  addUser(newEmail: string, newName: string, newPassword: string, newSurname: string) {
-    this.usersRef.push({
-      email: newEmail,
-      name: newName,
-      password: newPassword,
-      surname: newSurname
-    });
+  addUser(user) {
+    this.usersRef.push(user);
   }
   deleteUser(key: string) {
     this.usersRef.remove(key);

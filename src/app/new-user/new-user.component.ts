@@ -8,25 +8,65 @@ import { FormControl } from '@angular/forms';
     <form #formRef="ngForm">
       <div class="new-user-form">
          <div>
-            <label for="name" class="">Name:</label>
-            <input type="text" id="name" name="name" ngModel required class="" />
+            <label for="name">Name:</label>
+            <input [class.error-message-border]="name.invalid && (name.dirty || name.touched)"
+            ngModel name="name" #name="ngModel" (change)="log(name)" id="name" required
+            minlength="3" maxlength="7"/>
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error-messages">
+               <div *ngIf="name?.errors.required">
+                  Name is required.
+               </div>
+               <div *ngIf="name?.errors.minlength">
+                  Minimum length is 3 charaters.
+               </div>
+               <div *ngIf="name?.errors.maxlength">
+                  Maximum lenght is 10 characters.
+               </div>
+            </div>
          </div>
          <div>
-            <label for="surname" class="">Surname:</label>
-            <input type="text" id="surname" name="surname" ngModel required class="" />
+            <label for="surname">Surname:</label>
+            <input [class.error-message-border]="surname.invalid && (surname.dirty || surname.touched)"
+            ngModel #surname="ngModel" name="surname" id="surname" pattern="[a-z]+" required/>
+            <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="error-messages">
+               <div *ngIf="surname?.errors.required">
+                  Surname is required.
+               </div>
+               <div *ngIf="surname?.errors.pattern">
+                  Lowercase letters only
+               </div>
+            </div>
          </div>
          <div>
-            <label for="email" class="">Email:</label>
-            <input type="text" id="email" name="email" ngModel required class="" />
+            <label for="email">Email:</label>
+            <input email [class.error-message-border]="email.invalid && (email.dirty || email.touched)"
+            ngModel #email="ngModel" name="email" id="email" required/>
+            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-messages">
+               <div *ngIf="email?.errors.required">
+                  Email is required.
+               </div>
+               <div *ngIf="email?.errors.email">
+                  Email does not match
+               </div>
+            </div>
          </div>
          <div>
-            <label for="password" class="">Password:</label>
-            <input type="password" id="password" name="password" ngModel required class=""/>
+            <label for="password">Password:</label>
+            <input [class.error-message-border]="password.invalid && (password.dirty || password.touched)"
+            ngModel #password="ngModel" name="password" type="password" id="password" required/>
+            <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error-messages">
+               <div *ngIf="password?.errors.required">
+                  Password is required.
+               </div>
+            </div>
          </div>
          <div>
-            <label for="surname" class="">&nbsp;</label>
-            <button (click)="onSubmit(formRef.value); formRef.reset();" [disabled]="!formRef.valid"
-         class="">Create</button>
+            <label for="surname">&nbsp;</label>
+            <button  class="create-button"
+            [disabled]="!formRef.valid" (click)="onSubmit(formRef); formRef.reset();"
+            mat-raised-button color="accent">
+               Create
+            </button>
          </div>
       </div>
     </form>
@@ -34,11 +74,13 @@ import { FormControl } from '@angular/forms';
   styles: [``]
 })
 export class NewUserComponent {
-
    constructor(private userService: UserService) {
    }
-  onSubmit(data) {
-    this.userService.addUser(data.email, data.name, data.password, data.surname);
-  }
+   onSubmit(formRef) {
+      this.userService.addUser(formRef.value);
+   }
+   log(name) {
+      console.log(name);
+   }
 
 }

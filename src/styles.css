@@ -15,7 +15,7 @@ body {
 }
 .new-user-form {
    display: flex;
-   height: 70px;
+   height: 100px;
    align-items: center;
    justify-content: space-between;
 }
@@ -41,4 +41,46 @@ body {
 .users-holder .users-box:nth-child(1) {
    border-bottom: 1px solid;
    border-top: 1px solid;
+}
+.users-spinner {
+   margin-top: 10px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.new-user-form button {
+   line-height: 30px;
+   padding: 0 10px;
+}
+.new-user-form button.create-button[disabled] {
+   background-color: #ffcdd2;
+}
+.new-user-form > div {
+   height: 24px;
+}
+.new-user-form > div input {
+   height: 100%;
+}
+.error-messages {
+   color: red;
+}
+.error-message-border {
+   border: 2px solid red;
+}
+.edit-user-form > label {
+   display: block;
+   float: left;
+   width: 30%;
+}
+.edit-user-form > input {
+   display: block;
+   float: left;
+   width: 70%;
+   height: 25px;
+}
+.dialog-buttons {
+   float: right;
+}
+.dialog-buttons > button {
+   line-height: 30px;
 }
