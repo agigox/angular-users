@@ -1,3 +1,9 @@
-.bg-purple {
-  background: #5128a5;
+
+.flex-container {
+   display: flex;
+   flex-direction: column;
+}
+.app-title {
+   text-align: center;
+   text-transform: uppercase;
 }

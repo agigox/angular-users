@@ -1,10 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../node_modules/tachyons/css/tachyons.min.css";
-
-:root {
-  font-family: 'Roboto', sans-serif;
-}
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+/*@import "../node_modules/tachyons/css/tachyons.min.css";*/
+@import url('https://fonts.googleapis.com/css?family=Yatra+One');
 
 body {
-  background: #f1e0ff;
+  background:url('assets/img/background.jpg');
+  color: white;
+  width: 80%;
+  margin: 0 auto;
+  font-family: 'Yatra One', cursive;
+}
+.bg-purple {
+   background: #5128a5;
+}
+.new-user-form {
+   display: flex;
+   height: 70px;
+   align-items: center;
+   justify-content: space-between;
+}
+.users-box {
+   display: grid;
+   grid-template-columns: 25% 25% 25% 15% 10%;
+}
+.delete-all {
+   display: flex;
+   justify-content: center;
+}
+.delete-all button {
+   line-height: 30px;
+   padding: 0 10px;
+   margin-top: 10px;
+}
+.icons-actions {
+   cursor: pointer;
+}
+.users-holder {
+   margin-top:10px;
+}
+.users-holder .users-box:nth-child(1) {
+   border-bottom: 1px solid;
+   border-top: 1px solid;
 }

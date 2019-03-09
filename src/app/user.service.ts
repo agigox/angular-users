@@ -42,8 +42,8 @@ export class UserService {
     this.users.subscribe(observer);
   }
 
-  updateUser(key: string, newName: string) {
-    this.usersRef.update(key, { name: newName });
+  updateUser(user: any) {
+    this.usersRef.update(user.key, user);
   }
   addUser(newEmail: string, newName: string, newPassword: string, newSurname: string) {
     this.usersRef.push({
