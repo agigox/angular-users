@@ -9,8 +9,7 @@ import { FormControl } from '@angular/forms';
       <div class="new-user-form">
          <div>
             <label for="name">Name:</label>
-            <input [class.error-message-border]="name.invalid && (name.dirty || name.touched)"
-            ngModel name="name" #name="ngModel" (change)="log(name)" id="name" required
+            <input ngModel name="name" #name="ngModel" (change)="log(name)" id="name" required
             minlength="3" maxlength="7"/>
             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error-messages">
                <div *ngIf="name?.errors.required">
@@ -26,8 +25,7 @@ import { FormControl } from '@angular/forms';
          </div>
          <div>
             <label for="surname">Surname:</label>
-            <input [class.error-message-border]="surname.invalid && (surname.dirty || surname.touched)"
-            ngModel #surname="ngModel" name="surname" id="surname" pattern="[a-z]+" required/>
+            <input ngModel #surname="ngModel" name="surname" id="surname" pattern="[a-z]+" required/>
             <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="error-messages">
                <div *ngIf="surname?.errors.required">
                   Surname is required.
@@ -39,8 +37,7 @@ import { FormControl } from '@angular/forms';
          </div>
          <div>
             <label for="email">Email:</label>
-            <input email [class.error-message-border]="email.invalid && (email.dirty || email.touched)"
-            ngModel #email="ngModel" name="email" id="email" required/>
+            <input email ngModel #email="ngModel" name="email" id="email" required/>
             <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-messages">
                <div *ngIf="email?.errors.required">
                   Email is required.
@@ -52,8 +49,7 @@ import { FormControl } from '@angular/forms';
          </div>
          <div>
             <label for="password">Password:</label>
-            <input [class.error-message-border]="password.invalid && (password.dirty || password.touched)"
-            ngModel #password="ngModel" name="password" type="password" id="password" required/>
+            <input ngModel #password="ngModel" name="password" type="password" id="password" required/>
             <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error-messages">
                <div *ngIf="password?.errors.required">
                   Password is required.

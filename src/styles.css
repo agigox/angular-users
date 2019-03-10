@@ -64,9 +64,6 @@ body {
 .error-messages {
    color: red;
 }
-.error-message-border {
-   border: 2px solid red;
-}
 .edit-user-form > label {
    display: block;
    float: left;
@@ -83,4 +80,7 @@ body {
 }
 .dialog-buttons > button {
    line-height: 30px;
+}
+.new-user-form .ng-touched.ng-invalid {
+   border: 2px solid red;
 }
